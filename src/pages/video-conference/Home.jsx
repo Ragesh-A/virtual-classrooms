@@ -1,16 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import bg from '../../assets/images/video-conference.png';
 import Header from '../../components/classroom/header/Header';
 import WaitingPlace from '../../components/video-conference/WaitingPlace';
 import { v4 as uuid } from 'uuid';
 
 import { useNavigate } from 'react-router-dom';
-import { MeetupContext } from './MeetUp';
 import Notification from '../../components/common/Notification';
 
 const Home = () => {
 	const [tab, setTab] = useState('home');
-	const { socket, setIsCreator } = useContext(MeetupContext);
 
 	const [roomCode, setRoomCode] = useState('');
 
@@ -18,20 +16,21 @@ const Home = () => {
 	const handleFormSubmit = (e) => {
 		e.preventDefault();
 		const roomId = roomCode.trim();
-		if (roomId) {
-			setTab('waiting');
-		}
+		// if (roomId) {
+		// 	setTab('waiting');
+		// }
+		navigate(`/meetup/${roomId}`);
 	};
 
 	const createNewCall = async () => {
 		const id = uuid();
-		socket.emit('create', id);
-		socket.on('created', (data) => {
-			if (data?.success) {
-				setIsCreator(true);
+		// socket.emit('create', id);
+		// socket.on('created', (data) => {
+			// if (data?.success) {
+				// setIsCreator(true);
 				navigate(`/meetup/${id}`);
-			}
-		});
+			// }
+		// });
 	};
 
 	return (

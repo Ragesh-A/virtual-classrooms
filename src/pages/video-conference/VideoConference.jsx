@@ -46,7 +46,7 @@ const VideoConference = () => {
 
 	useEffect(() => {
 		if (!socket) return;
-		RTCP.current = new RTCPeerConnection(constraints);
+		RTCP.current = new RTCPeerConnection(iceServers);
 		RTCP.current.onicecandidate = onIceCandidate;
 		RTCP.current.ontrack = OnTrack;
 
@@ -82,7 +82,7 @@ const VideoConference = () => {
 			console.log(isCreator);
 			if (isCreator) {
 				console.log('iam ready');
-				const newRTC = new RTCPeerConnection(constraints);
+				const newRTC = new RTCPeerConnection(iceServers);
 				newRTC.onicecandidate = onIceCandidate;
 				newRTC.ontrack = OnTrack;
 				RTCP.current = newRTC;
@@ -99,7 +99,7 @@ const VideoConference = () => {
 
 		socket.on('offer', async (offer) => {
 			if (!isCreator) {
-				const newRTC = new RTCPeerConnection(constraints);
+				const newRTC = new RTCPeerConnection(iceServers);
 				newRTC.onicecandidate = onIceCandidate;
 				newRTC.ontrack = OnTrack;
 				RTCP.current = newRTC;
@@ -108,13 +108,13 @@ const VideoConference = () => {
 					RTCP.current.addTrack(track, localStream);
 				});
 				// }
-				if (RTCP.current.signalingState === 'stable') {
+				// if (RTCP.current.signalingState === 'stable') {
 					await RTCP.current.setRemoteDescription(offer);
-				}
+				// }
 
-				if (!RTCP.current.isStable) {
-					await RTCP.current.setRemoteDescription(offer);
-			}
+			// 	if (!RTCP.current.isStable) {
+			// 		await RTCP.current.setRemoteDescription(new RTCSessionDescription(offer.sdp));
+			// }
 
 				RTCP.current.createAnswer(handleAnswer, errorHandle);
 			}
@@ -130,7 +130,7 @@ const VideoConference = () => {
 			console.log(RTCP.current);
 			try {
         if (RTCP.current) {
-            await RTCP.current.setRemoteDescription(answer);
+            await RTCP.current.setRemoteDescription(new RTCSessionDescription(answer))
         } else {
             console.log('No active RTCPeerConnection to set remote description.');
         }
@@ -160,8 +160,9 @@ const VideoConference = () => {
 
 		function setOffer(offer) {
 			console.log('got offer:', offer);
-			RTCP.current.setLocalDescription(offer);
-			socket.emit('offer', offer, meetupId);
+			RTCP.current.setLocalDescription(offer).then(() => {
+				socket.emit('offer', offer, meetupId);
+			}).catch(e => alert(e));
 		}
 
 		async function handleAnswer(answer) {

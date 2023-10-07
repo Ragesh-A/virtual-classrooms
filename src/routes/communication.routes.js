@@ -1,7 +1,7 @@
 import PrivateRoute from '../components/PrivateRoute';
 import Home from '../pages/video-conference/Home';
+import Jitsi from '../pages/video-conference/Jitsi';
 import MeetUp from '../pages/video-conference/MeetUp';
-import VideoConference from '../pages/video-conference/VideoConference';
 
 const meetUp = {
 	path: '/meetup',
@@ -16,7 +16,7 @@ const meetUp = {
   },
     {
       path: ':meetupId', 
-      element:  <VideoConference /> ,
+      element:  <Jitsi /> ,
   }]
 };
 

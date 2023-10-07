@@ -5,15 +5,14 @@ import image from '../assets/images/pexels-julia-m-cameron-4144230.jpg'
 import image2 from '../assets/images/R.jpg'
 import { BASIC_FEATURES, PREMIUM_FEATURES } from "../constant/constant";
 import contactImage from '../assets/images/support.png'
-import image3 from '../assets/images/analytics-report.png'
-import image4 from '../assets/images/chat.png'
-import image5 from '../assets/images/exams.png'
-import image6 from '../assets/images/notifications.png'
-import image7 from '../assets/images/progress.png'
-import image8 from '../assets/images/video-conference.png'
+// import image3 from '../assets/images/analytics-report.png'
+// import image4 from '../assets/images/chat.png'
+// import image5 from '../assets/images/exams.png'
+// import image6 from '../assets/images/notifications.png'
+// import image7 from '../assets/images/progress.png'
+// import image8 from '../assets/images/video-conference.png'
 import { decodeUser } from "../utils/storageHelper";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import Notification from "../components/common/Notification";
 import Subscription from "./Subscription";
 import './homeAnimation';
@@ -21,21 +20,15 @@ import './homeAnimation';
 const Home = () => {
   const [plan, setPlan] = useState()
   const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const subscriptionHandle = (subs) => {
+  
+  
+  const clickHandle = (plan) => {
     const user = decodeUser()
-    if (user?._id){
-      console.log('called');
-      // subscriptionServices.purchaseSubscription(subs).then(res=>{
-      // console.log(res)
-      // })
-    }else{
+    if (user?._id) {
+      setPlan(plan);
+    } else {
       navigate('/auth/login')
     }
-  }
-
-  const clickHandle = (plan) => {
-    setPlan(plan);
 
   }
 
