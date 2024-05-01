@@ -7,13 +7,14 @@ import Spinner from '../../components/common/Spinner';
 const Jitsi = () => {
 	const { user } = useSelector((store) => store.user);
   const { meetupId } = useParams();
-  const [isReady, setReady] = useState(false)
-
+	const [isReady, setReady] = useState(false)
+	const t = process.env.REACT_APP_JITSI_APP
+	console.log(t);
 	return (
     <div className='h-screen relative'>
       { !isReady && <Spinner className='absolute z-50 w-full flex h-screen items-center justify-center'/>}
 			<JaaSMeeting
-				appId={'YOUR_APP_ID'}
+				appId={t}
 				userInfo={{ displayName: user?.name }}
 				roomName={meetupId}
 				configOverwrite={{

@@ -38,9 +38,9 @@ const ChatHome = () => {
 
   return (
     <>
-      <Section className="p-0 md:px-[16px] md:p-5">
+      <section className="p-0 sm:px-2 md:px-[16px] md:p-5">
         <Notification />
-        <div className=" rounded h-[72vh] md:h-[80vh] relative flex gap-3">
+        <div className=" rounded h-[78vh] md:h-[80vh] relative flex gap-3">
           <div
             className={`bg-tileColor absolute z-[2] w-full p-3 md:w-[25rem] h-full border-2 border-white rounded-xl shadow md:relative overflow-hidden ${
               userSelected && 'hidden'
@@ -74,7 +74,7 @@ const ChatHome = () => {
             setUserSelected={setUserSelected}
           />
         </div>
-      </Section>
+      </section>
     </>
   );
 };
